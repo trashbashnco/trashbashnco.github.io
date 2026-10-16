@@ -147,7 +147,31 @@ footer .right{margin-left:auto}
   .sheet.r1,.sheet.r2,.sheet.r3{transform:none}
   .nav nav{gap:2px}.nav nav a{font-size:.82rem;padding:.4em .5em}
 }
-@media (max-width:480px){.hero .board{height:340px}.sheet{padding-left:52px}.who .photo{height:320px}}
+@media (max-width:600px){
+  .nav .wrap{min-height:58px;gap:8px}
+  .nav .brand img.wm{display:none}
+  .nav .brand img.coco{height:36px}
+  .nav nav{flex-wrap:nowrap;gap:0}.nav nav a{font-size:.8rem;padding:.35em .45em}.nav nav a.rules{padding:.3em .6em}
+  .hero .wrap{padding-block:36px 24px;gap:20px}
+  .hero .wm{width:min(70%,240px)}
+  .hero h1{font-size:2.2rem;margin-top:14px}
+  .hero .cta{margin-top:24px}
+  .hero .board{height:400px;margin-top:4px}
+  .hero .board .s1{left:2%;top:10%;width:58%;height:70%}
+  .hero .board .s2{right:0;top:26%;width:50%;height:64%}
+  .hero .board .golem{left:3%;top:9%;width:50%}
+  .hero .board .chimera{right:-2%;bottom:5%;width:48%}
+  .hero .board .lbl{font-size:1.05rem}
+  .hero .coco{width:78px;right:2%;top:-6px}
+  .sheet{padding:32px 20px 24px 48px}
+  .intro .r2{padding:32px 20px 24px 48px!important}
+  .intro .r2 img{width:52%!important;max-width:200px!important;margin:28px 0 14px 38%!important}
+  .intro .r2 svg{left:2%!important;top:36%!important;width:38%!important}
+  .intro .r2 .hand[style*="position:absolute"]{left:48px!important;top:36px!important;font-size:.95rem!important}
+  .stats .grid{gap:20px}
+  .stat{min-height:0}
+  .who .photo{height:320px}
+}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
 </style>
 
