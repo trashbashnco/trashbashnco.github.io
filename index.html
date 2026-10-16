@@ -1,0 +1,297 @@
+<title>TrashBash</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Darumadrop+One&family=Grandstander:ital,wght@0,400;0,600;0,700;0,800;1,500;1,600&family=Caveat:wght@500;700&display=swap">
+<style>
+/* Layout: a field journal. Cream page, ruled-paper sheets taped on at slight angles, marginalia in a hand script, Trash Green marker highlights. Characters sit on the sheets as pinned specimens. */
+:root{
+  --green:#C9FA5F;--moss:#6BA539;--logs:#A1744F;--petals:#6CA0FF;--clouds:#FFFCF2;--ink:#222223;
+  --page:#F6F1E4;--sheet:#FFFCF2;--rule:rgba(107,80,50,.22);--margin:rgba(220,80,80,.45);--muted:#6B6459;--tape:rgba(255,255,255,.55);
+  --display:'Darumadrop One','Grandstander',system-ui,sans-serif;--body:'Grandstander','Trebuchet MS',system-ui,sans-serif;--hand:'Caveat','Comic Sans MS',cursive;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--page);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;overflow-x:hidden;background-image:radial-gradient(rgba(107,80,50,.06) 1px,transparent 1px);background-size:22px 22px}
+img{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.02;margin:0;text-wrap:balance}
+h2{font-size:clamp(2.2rem,5vw,3.6rem)}
+h3{font-size:1.5rem}
+p{margin:0}
+.wrap{max-width:1100px;margin-inline:auto;padding-inline:24px;position:relative}
+.k{font-weight:800;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--moss)}
+.hand{font-family:var(--hand);font-weight:700;color:var(--muted)}
+.hi{background:linear-gradient(transparent 52%,var(--green) 52%,var(--green) 92%,transparent 92%)}
+section[id]{scroll-margin-top:76px}
+
+/* ruled sheet */
+.sheet{position:relative;background:var(--sheet) repeating-linear-gradient(to bottom,transparent 0 30px,var(--rule) 30px 32px);border:1px solid rgba(34,34,35,.14);box-shadow:0 14px 30px -18px rgba(60,40,10,.5);padding:40px 36px 36px 64px;border-radius:3px}
+.sheet::before{content:"";position:absolute;left:44px;top:0;bottom:0;width:2px;background:var(--margin)}
+.sheet.tape::after{content:"";position:absolute;left:50%;top:-14px;width:120px;height:28px;background:var(--tape);transform:translateX(-50%) rotate(-2deg);border-left:1px dashed rgba(34,34,35,.18);border-right:1px dashed rgba(34,34,35,.18);box-shadow:0 1px 3px rgba(34,34,35,.18);backdrop-filter:blur(.5px)}
+.sheet.r1{transform:rotate(-1.2deg)}.sheet.r2{transform:rotate(1deg)}.sheet.r3{transform:rotate(-.6deg)}
+.sheet .num{position:absolute;right:16px;top:12px;font-family:var(--hand);font-size:1.1rem;color:var(--muted)}
+.holes{position:absolute;left:12px;top:0;bottom:0;width:20px;display:flex;flex-direction:column;justify-content:space-evenly}
+.holes i{width:14px;height:14px;border-radius:50%;background:var(--page);border:1px solid rgba(34,34,35,.15);display:block}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;font-family:var(--body);font-weight:800;font-size:.95rem;padding:.8em 1.4em;border-radius:999px;border:2px solid var(--ink);background:var(--ink);color:#fff;text-decoration:none;cursor:pointer;transition:transform .15s}
+.btn.ghost{background:transparent;color:var(--ink)}.btn.lime{background:var(--green);color:var(--ink)}
+.btn:hover{transform:translateY(-2px) rotate(-1deg)}
+:focus-visible{outline:3px solid var(--petals);outline-offset:3px}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:rgba(246,241,228,.92);backdrop-filter:blur(6px);border-bottom:2px solid var(--ink)}
+.nav .wrap{display:flex;align-items:center;gap:12px;min-height:66px}
+.nav .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav .brand img.coco{height:34px;width:auto}
+.nav .brand img.wm{height:37px;width:auto}
+.nav nav{margin-left:auto;display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.nav nav a{text-decoration:none;font-weight:700;font-size:.92rem;padding:.4em .75em;border-radius:999px}
+.nav nav a:hover{background:var(--green)}
+.nav nav a.rules{border:2px solid var(--ink)}
+
+/* hero */
+.hero{position:relative;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:32px;align-items:center;padding-block:72px 48px}
+.hero .wm{width:min(100%,360px);height:auto}
+.hero h1{font-size:clamp(2.6rem,6vw,4.6rem);margin-top:22px;max-width:14ch}
+.hero .lead{font-size:1.15rem;color:var(--muted);max-width:44ch;margin-top:14px}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:44px}
+.hero .note{font-family:var(--hand);font-size:1.3rem;color:var(--muted);margin-top:18px;transform:rotate(-2deg);display:inline-block}
+.hero .board{position:relative;height:520px}
+.hero .board .sheet{position:absolute;padding:0;overflow:visible}
+.hero .board .coco-link{cursor:default;display:contents}
+.hero .board .s1{left:4%;top:6%;width:62%;height:78%;transform:rotate(-3deg)}
+.hero .board .s2{right:0;top:18%;width:52%;height:72%;transform:rotate(2.5deg)}
+.hero .board img.spec{position:absolute;filter:drop-shadow(0 12px 10px rgba(0,0,0,.25))}
+.hero .board .golem{left:6%;top:4%;width:52%}
+.hero .board .chimera{right:-2%;bottom:6%;width:50%}
+.hero .board .lbl{position:absolute;font-family:var(--hand);font-size:1.25rem;color:var(--ink);background:var(--sheet);padding:2px 10px;border:1px solid rgba(34,34,35,.2);transform:rotate(-3deg)}
+.hero .board .l1{left:8%;top:6%}.hero .board .l2{right:4%;bottom:4%;transform:rotate(3deg)}
+.hero .coco{position:absolute;right:6%;top:-10px;width:110px;transform:rotate(8deg)}
+
+/* world */
+.world .wrap{padding-block:64px 80px;display:grid;gap:40px}
+.world .intro{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:start}
+.world .intro .sheet{padding-top:48px}
+.world .intro h2{margin-bottom:18px}
+.world .intro p{font-size:1.05rem;max-width:52ch;margin-bottom:12px}
+.world .intro .scribble{font-family:var(--hand);font-size:1.35rem;color:var(--moss);transform:rotate(-1.5deg);display:inline-block;margin-top:8px}
+.field{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.spec{position:relative;display:grid;gap:10px;padding:26px 22px 22px;background:var(--sheet);border:1px solid rgba(34,34,35,.14);box-shadow:0 12px 26px -16px rgba(60,40,10,.5);transform:rotate(var(--r,0deg))}
+.spec::before{content:"";position:absolute;left:50%;top:-12px;width:90px;height:24px;background:var(--tape);transform:translateX(-50%) rotate(var(--t,-2deg))}
+.spec img{width:100%;height:240px;object-fit:contain;filter:drop-shadow(0 10px 8px rgba(0,0,0,.22))}
+.spec .id{font-family:var(--hand);font-size:1.05rem;color:var(--muted)}
+.spec h3{font-size:1.6rem}
+.spec p{font-size:.95rem;color:var(--muted)}
+.spec .mat{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:.25em .7em;border:2px solid var(--ink);border-radius:999px;justify-self:start}
+
+/* stats */
+.stats .wrap{padding-block:64px 80px}
+.stats .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:36px;align-items:stretch}
+.stat{padding:44px 28px 28px 56px;min-height:380px;display:flex;flex-direction:column;gap:10px}
+.stat .big{font-family:var(--display);font-size:clamp(3rem,6vw,4.6rem);line-height:.95;color:var(--moss)}
+.stat.r1 .big{font-size:clamp(2rem,3.4vw,2.9rem);white-space:nowrap;letter-spacing:-.01em}
+.stat .what{font-family:var(--display);font-size:1.5rem;line-height:1.1}
+.stat .why{font-size:.95rem;color:var(--muted)}
+.stat .src{font-size:.74rem;color:var(--muted);margin-top:auto;padding-top:10px}
+.stat .src a{color:var(--moss)}
+.stat svg{width:100%;height:auto;margin-top:6px}
+.stats .foot{margin-top:36px;font-family:var(--hand);font-size:1.4rem;color:var(--muted);text-align:center}
+
+/* rules teaser */
+.rules-teaser .wrap{padding-block:40px 80px}
+.rules-teaser .sheet{display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center}
+.rules-teaser h2{font-size:2rem}
+.rules-teaser p{color:var(--muted);max-width:52ch;margin-top:8px}
+
+/* who */
+.who .wrap{padding-block:40px 80px}
+.who .sheet{padding-top:48px}
+.who p{font-size:1.02rem;margin-bottom:12px;max-width:50ch}
+.who .photo{position:relative;height:420px}
+.who .photo img{position:absolute;filter:drop-shadow(0 12px 10px rgba(0,0,0,.25))}
+.who .photo .a{left:0;top:0;width:52%;transform:rotate(-6deg)}
+.who .photo .b{right:0;bottom:0;width:48%;transform:rotate(5deg)}
+.who .photo .c{left:30%;top:36%;width:40%;transform:rotate(2deg)}
+.who .photo .cap{position:absolute;left:8%;bottom:4%;font-family:var(--hand);font-size:1.2rem;color:var(--muted);transform:rotate(-3deg)}
+
+/* contact */
+.contact .wrap{padding-block:40px 90px}
+.contact .sheet{display:grid;grid-template-columns:1fr 1fr;gap:40px;padding-top:52px}
+.contact h2{font-size:2.4rem}
+.contact .lead{color:var(--muted);margin-top:10px;max-width:40ch}
+.row{margin-top:20px}
+.row b{display:block;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.copyline{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.copyline code{font-family:var(--body);font-weight:700;font-size:1.05rem;user-select:all}
+.mini{font:inherit;font-weight:800;font-size:.74rem;border:2px solid var(--ink);background:none;border-radius:999px;padding:.25em .8em;cursor:pointer}
+form{display:grid;gap:12px}
+label{display:grid;gap:5px;font-weight:700;font-size:.84rem}
+input,textarea,select{font:inherit;font-weight:600;padding:.65em .85em;border-radius:8px;border:2px solid rgba(34,34,35,.2);background:#fff;color:var(--ink);width:100%}
+textarea{min-height:110px;resize:vertical}
+.note{font-size:.8rem;color:var(--muted)}
+.toast{display:none;font-weight:700;background:var(--green);border-radius:8px;padding:.7em 1em}
+.toast.show{display:block}
+
+footer{border-top:2px solid var(--ink)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;padding-block:26px;font-size:.86rem;color:var(--muted)}
+footer img{height:22px;width:auto}
+footer .right{margin-left:auto}
+
+@media (max-width:900px){
+  .hero .wrap,.world .intro,.who .sheet,.contact .sheet{grid-template-columns:1fr!important}
+  .hero .board{height:420px}
+  .field,.stats .grid{grid-template-columns:1fr}
+  .rules-teaser .sheet{grid-template-columns:1fr}
+  .sheet.r1,.sheet.r2,.sheet.r3{transform:none}
+  .nav nav{gap:2px}.nav nav a{font-size:.82rem;padding:.4em .5em}
+}
+@media (max-width:480px){.hero .board{height:340px}.sheet{padding-left:52px}.who .photo{height:320px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
+</style>
+
+<header class="nav"><div class="wrap">
+  <a class="brand" href="#top" aria-label="TrashBash home"><img class="coco" src="coco.png" alt="Coco the raccoon"><img class="wm" src="wordmark-moss.png" alt="TrashBash"></a>
+  <nav aria-label="Sections"><a href="#world">The world</a><a href="#stats">The numbers</a><a href="#contact">Playtest</a><a class="rules" href="rules.html">Rules</a></nav>
+</div></header>
+
+<main id="top">
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <img class="wm" src="wordmark-moss.png" alt="TrashBash">
+      <h1>Our waste has started to evolve.</h1>
+      <div class="cta"><a class="btn" href="#world">Open the journal</a><a class="btn ghost" href="rules.html">How to play</a></div>
+      <span class="note">made by real students for students</span>
+    </div>
+    <div class="board" aria-hidden="true">
+      <div class="sheet s1"></div>
+      <div class="sheet s2"></div>
+      <img class="spec golem" src="cardboard-golem.webp" alt="">
+      <img class="spec chimera" src="plushie-chimera.webp" alt="">
+      <span class="lbl l1">specimen 04 · cardboard</span>
+      <span class="lbl l2">specimen 09 · plush</span>
+      <a href="secret.html" class="coco-link" aria-label="Coco" tabindex="-1"><img class="coco" src="coco.png" alt=""></a>
+    </div>
+  </div>
+</section>
+
+<section class="world" id="world">
+  <div class="wrap">
+    <div class="intro">
+      <div class="sheet tape r1">
+        <span class="num">p. 1</span>
+        <span class="k">The world</span>
+        <h2>Our mess made the great reset.</h2>
+        <p>For as long as we could remember, we bought and consumed without a care. Nothing rotted; it just piled up in our landfills until that wasn't enough either. Governments banded together to mitigate the waste, but it was far too late.</p>
+        <p>Eventually the waste we neglected seeped into nature itself and nature did the only thing it could: It evolved...</p>
+        <p>The piles started to move together and the things we discarded grew limbs and thoughts of their own. They were no longer the byproducts of our wallets, no, they were alive.</p>
+        <p>We called it the great reset. 80% of our marine biology was wiped out within a year. Avians made of umbrellas and mammals carved from produce started popping out around the world.</p>
+        <p>Now our objects roam the earth, imitating their natural counterparts. This journal was written for the very purpose of understanding this phenomenon and to record what comes next.</p>
+      </div>
+      <div class="sheet r2" style="padding:36px 28px 28px 56px;display:flex;flex-direction:column;align-items:center;text-align:center">
+        <span class="num">field note</span>
+        <span class="hand" style="position:absolute;left:56px;top:40px;font-size:1.05rem;line-height:1.3;font-style:italic;color:var(--muted);text-align:left">height: 38cm<br>weight: 0.4kg<br>climate: freshwater</span>
+        <svg aria-hidden="true" viewBox="0 0 170 120" style="position:absolute;left:7%;top:36%;width:34%;height:auto;pointer-events:none;overflow:visible"><text x="4" y="46" font-family="Caveat, cursive" font-size="27" fill="#D9342B" transform="rotate(-8 4 46)">what is this?</text><path d="M70 60 C 90 80, 110 84, 150 76" fill="none" stroke="#D9342B" stroke-width="3.5" stroke-linecap="round"/><path d="M136 68 L 152 76 L 138 86" fill="none" stroke="#D9342B" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <img src="plastyfish-silhouette.webp" alt="Blacked-out silhouette of an unidentified jellyfish-like creature" style="width:58%;max-width:240px;height:auto;margin:26px 0 18px 32%;display:block">
+        <p class="hand" style="font-size:1.35rem;line-height:1.35;margin:0">Body is made of a thick plastic film, malleable shape. Seems to have a plastic bag for a head mimicking a box jellyfish.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="stats" id="stats">
+  <div class="wrap">
+    <span class="k">The numbers · Singapore</span>
+    <h2>What a nation throws away.</h2>
+    <div class="grid">
+      <div class="sheet stat r1">
+        <span class="num">fig. 1</span>
+        <span class="what" style="font-size:1.25rem;color:var(--muted)">0.83 kg of waste, per person, every day at home.</span>
+        <span class="what" style="margin-top:6px">Across Singapore, that's</span>
+        <span class="big">3,500,000 kg</span>
+        <span class="what">of household waste. Every day.</span>
+        <span class="why">About 300 kg a year each, and that is only what leaves our flats. Factories, shops and offices throw away roughly three times more again.</span>
+        <span class="src">Sources: <a href="https://www.nea.gov.sg/our-services/waste-management/waste-statistics-and-overall-recycling" target="_blank" rel="noopener">NEA, Waste Statistics 2025</a>; <a href="https://www.singstat.gov.sg/find-data/explore-data-themes/population/population-and-population-structure/latest-news-data" target="_blank" rel="noopener">SingStat</a>, 4.2 million residents</span>
+      </div>
+      <div class="sheet stat r2">
+        <span class="num">fig. 2</span>
+        <span class="big">11%</span>
+        <span class="what">of household waste is recycled.</span>
+        <svg viewBox="0 0 300 110" aria-label="Pie chart: 11 percent recycled, 89 percent incinerated"><path d="M150 55 L150 5 A50 50 0 1 1 118.5 94.4 Z" fill="#E6E1D3" transform="rotate(39.6 150 55)"/><circle cx="150" cy="55" r="50" fill="#E6E1D3"/><path d="M150 55 L150 5 A50 50 0 0 1 182 13.6 Z" fill="#6BA539" stroke="#222223" stroke-width="2"/></svg>
+        <span class="why">Down from about 20% a decade ago. The 2030 target is 30%. The rest is burned, and the ash goes to one island.</span>
+        <span class="src">Source: <a href="https://www.nea.gov.sg/our-services/waste-management/waste-statistics-and-overall-recycling" target="_blank" rel="noopener">NEA 2025</a>; <a href="https://mse.gov.sg/latest-news/written-reply-to-pq-on-recycling-rate" target="_blank" rel="noopener">MSE</a></span>
+      </div>
+      <div class="sheet stat r3">
+        <span class="num">fig. 3</span>
+        <span class="big">2035</span>
+        <span class="what">Semakau, our only landfill, is full.</span>
+        <svg viewBox="0 0 300 50" aria-label="Timeline from 1999 to 2035 with 2026 marked; more than half filled"><line x1="10" y1="25" x2="290" y2="25" stroke="#E6E1D3" stroke-width="8" stroke-linecap="round"/><line x1="10" y1="25" x2="220" y2="25" stroke="#6BA539" stroke-width="8" stroke-linecap="round"/><circle cx="10" cy="25" r="6" fill="#222223"/><circle cx="220" cy="25" r="8" fill="#6BA539" stroke="#222223" stroke-width="3"/><circle cx="290" cy="25" r="6" fill="#222223"/></svg>
+        <span class="why">Opened 1999. More than half filled. Expected to run out of space by 2035 at current rates. There is no second island.</span>
+        <span class="src">Source: <a href="https://www.mse.gov.sg/latest-news/written-reply-to-pq-on-extension-of-semakau-landfill-lifespan/" target="_blank" rel="noopener">MSE, Jan 2024</a></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rules-teaser">
+  <div class="wrap">
+    <div class="sheet tape">
+      <div>
+        <span class="k">The game</span>
+        <h2>You own too much. Let it go.</h2>
+        <p>Six creatures you bought over the years. Each one has a hold on you. Spend Resolve to let them go. First to own nothing wins. Two players, about twenty minutes.</p>
+      </div>
+      <a class="btn lime" href="rules.html">Read the rules</a>
+    </div>
+  </div>
+</section>
+
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="sheet tape r1">
+      <div>
+        <span class="num">p. 8</span>
+        <span class="k">Playtest with us</span>
+        <h2>Come lose some stuff.</h2>
+        <p class="lead">We run small sessions in Singapore and send print-and-play packs by email. Tell us which you'd like, and we'll write back.</p>
+        <div class="row"><b>Email</b><div class="copyline"><code id="email">trashbashnco@gmail.com</code><button class="mini" type="button" data-copy="trashbashnco@gmail.com">Copy</button></div></div>
+        <div class="row"><b>Instagram</b><div class="copyline"><a href="https://instagram.com/trashbash.co" target="_blank" rel="noopener"><code>@trashbash.co</code></a></div></div>
+        <div class="row"><b>Where</b><p>Singapore. Sessions at SP and around the island; we'll say where when we confirm.</p></div>
+      </div>
+      <form id="form" novalidate>
+        <label>Name<input id="f-name" name="name" autocomplete="name" required></label>
+        <label>Email<input id="f-email" name="email" type="email" autocomplete="email" required></label>
+        <label>I'd like<select id="f-topic" name="topic"><option>To join a playtest session</option><option>A print-and-play pack</option><option>To stock the game</option><option>To collaborate</option><option>Something else</option></select></label>
+        <label>Message<textarea id="f-msg" name="message" required placeholder="How many of you, and when works."></textarea></label>
+        <button class="btn" type="submit">Copy message for email</button>
+        <p class="note">Copies your note to the clipboard, ready to paste into an email to the address on the left.</p>
+        <p class="toast" id="toast" role="status"></p>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap">
+  <img src="wordmark-moss.png" alt="TrashBash">
+  <span>A field journal, and a card game about letting go.</span>
+  <span class="right">© 2026 TrashBash · Singapore</span>
+</div></footer>
+
+<script>
+(function(){
+  function fallback(t){var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(a)}
+  function copy(t,d){try{navigator.clipboard.writeText(t).then(d,function(){fallback(t);d()})}catch(e){fallback(t);d()}}
+  document.querySelectorAll('[data-copy]').forEach(function(b){b.addEventListener('click',function(){copy(b.dataset.copy,function(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy'},1600)})})});
+  var f=document.getElementById('form'),t=document.getElementById('toast');
+  f.addEventListener('submit',function(e){e.preventDefault();
+    var n=document.getElementById('f-name').value.trim(),m=document.getElementById('f-email').value.trim(),k=document.getElementById('f-topic').value,s=document.getElementById('f-msg').value.trim();
+    if(!n||!m||!s){t.textContent='Please fill in your name, email and a message first.';t.classList.add('show');return}
+    copy('Subject: TrashBash playtest — '+k+'\n\nHi TrashBash,\n\n'+s+'\n\n'+n+'\n'+m,function(){t.textContent='Copied. Paste it into an email to trashbashnco@gmail.com and send.';t.classList.add('show')});
+  });
+})();
+</script>
